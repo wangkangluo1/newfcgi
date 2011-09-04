@@ -1,0 +1,5 @@
+make clean
+make 
+mv cc.fcgi /var/www/cgi-bin/
+chmod a+s /var/www/cgi-bin/cc.fcgi
+sudo /etc/init.d/apachectl restart

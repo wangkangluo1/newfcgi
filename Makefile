@@ -1,8 +1,8 @@
-CXXFLAGS =	-O2 -g -Wall -fmessage-length=0
+CXXFLAGS =	-O2 -g -Wall -fmessage-length=0  `pkg-config glib-2.0 --cflags --libs`
 
 OBJS =		main.o
 
-LIBS = -lfcgi
+LIBS = -lfcgi -lscholar -legg2
 
 TARGET =	cc.fcgi
 
