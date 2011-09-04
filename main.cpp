@@ -20,8 +20,13 @@
 #include	<cstdlib>
 #include	<fstream>
 #include	<iomanip>   
-#include	<iostream>  
+#include	<iostream>
+#include    "config.h"
+
 using namespace std;
+extern global G;
+
+
 
 extern "C"
 {
@@ -34,14 +39,14 @@ extern "C"
 #include <scholar/ImCnLexAnalyzer.h>
 #include <scholar/ImCwsLexAnalyzer.h>
 }
-	
-#define printf(...) FCGX_FPrintF(request->out, __VA_ARGS__) 
+
+
+
+
+#ifndef DEBUG
+#define printf(...) FCGX_FPrintF(request->out, __VA_ARGS__)
+#endif
 #define get_param(KEY) FCGX_GetParam(KEY, request->envp) 
-
-
-
-
-
 
 
 void me(FCGX_Request *request)
@@ -91,29 +96,22 @@ void me(FCGX_Request *request)
 
 
 void handle_request(FCGX_Request *request) { 
-    char *value; 
-
-    printf("Content-Type: text/plain\r\n\r\n"); 
-    if ((value = get_param("REQUEST_METHOD")) != NULL) { 
-        printf("%s ", value); 
-    } 
-    if ((value = get_param("REQUEST_URI")) != NULL) { 
-        printf("%s", value); 
-    } 
+    char *value;
+	printf("Content-Type: text/plain\r\n\r\n"); 
     if ((value = get_param("QUERY_STRING")) != NULL) { 
-        printf("?%s", value); 
-    } 
-    if ((value = get_param("SERVER_PROTOCOL")) != NULL) { 
-        printf(" %s", value); 
-    }
+  		G.inputs.init(value);
+	} 
 	me(request);
-    printf("fuckof\n"); 
+    printf("fuckof\n");
+	//printf("%d", G);
 } 
 
 
 int main(void) {
-
-
+#ifdef DEBUG
+	G.inputs.init("&akey=me=nikey=");
+	
+#else
     //int sock; 
     FCGX_Request request; 
 
@@ -125,7 +123,7 @@ int main(void) {
         handle_request(&request); 
         FCGX_Finish_r(&request); 
     } 
-
+#endif
     return EXIT_SUCCESS;
 	
 }

@@ -1,3 +1,4 @@
+export DDEBUG="-DDEBUG"
 make clean
 make 
 mv cc.fcgi /var/www/cgi-bin/
