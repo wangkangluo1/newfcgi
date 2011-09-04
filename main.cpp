@@ -113,9 +113,7 @@ void handle_request(FCGX_Request *request) {
 
 int main(void) {
 
-#ifdef DEBUG
-    cout<<"fuck yout"<<endl;
-#else	
+
     //int sock; 
     FCGX_Request request; 
 
@@ -127,7 +125,7 @@ int main(void) {
         handle_request(&request); 
         FCGX_Finish_r(&request); 
     } 
-#endif
+
     return EXIT_SUCCESS;
 	
 }
