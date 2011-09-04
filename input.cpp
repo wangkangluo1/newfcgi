@@ -9,21 +9,26 @@ using namespace std;
 using namespace boost;
 void input::init(char *str)
 {
-	regex expression("(&|^)key=[^&]{1,}");
-	cmatch result;
+    input_strs = str;
+}
 
-	if(regex_search(str, result, expression) )
+
+char * input::get(char *search_arg)
+{
+	string gets("(&|^)");
+   	gets.append(search_arg);
+	gets.append("=[^&]{1,}");
+	//regex expression("(&|^)key=[^&]{1,}");
+	regex expression(gets.c_str());
+	cmatch result;
+	if(regex_search(input_strs, result, expression) )
 		{
-			//std::cout << result.str() << std::endl;
-			cout<<result.size()<<endl;
-			for(int i=0;i<result.size();i++)
-				{
-					cout<<result[i].str()<<endl;
-				}
+			cout << result.str() << std::endl;
 		}
 	else
 		{
 			cout<<"Error Input"<<endl;
-		}
-	cout<<"1111111"<<endl;
+		}	
 }
+
+ 

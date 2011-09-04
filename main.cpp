@@ -109,7 +109,8 @@ void handle_request(FCGX_Request *request) {
 
 int main(void) {
 #ifdef DEBUG
-	G.inputs.init("&akey=me=nikey=");
+	G.inputs.init("&op=me=ni&key=");
+	G.inputs.get("op");
 	
 #else
     //int sock; 
