@@ -1,4 +1,4 @@
-CXXFLAGS =	-O2 -g -Wall -fmessage-length=0  `pkg-config glib-2.0 --cflags --libs`
+CXXFLAGS =	-O2 -g -Wall -fmessage-length=0  `pkg-config glib-2.0 --cflags --libs` $(DDEBUG)
 
 OBJS =		main.o
 

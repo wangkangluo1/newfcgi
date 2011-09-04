@@ -17,6 +17,12 @@
  */
 
 
+#include	<cstdlib>
+#include	<fstream>
+#include	<iomanip>   
+#include	<iostream>  
+using namespace std;
+
 extern "C"
 {
 #include <stdio.h> 
@@ -105,7 +111,11 @@ void handle_request(FCGX_Request *request) {
 } 
 
 
-int main(void) { 
+int main(void) {
+
+#ifdef DEBUG
+    cout<<"fuck yout"<<endl;
+#else	
     //int sock; 
     FCGX_Request request; 
 
@@ -117,6 +127,7 @@ int main(void) {
         handle_request(&request); 
         FCGX_Finish_r(&request); 
     } 
-
-    return EXIT_SUCCESS; 
+#endif
+    return EXIT_SUCCESS;
+	
 }
