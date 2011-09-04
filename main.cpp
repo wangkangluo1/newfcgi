@@ -106,12 +106,16 @@ void handle_request(FCGX_Request *request) {
 	//printf("%d", G);
 } 
 
-
-int main(void) {
+int
+main ( int argc, char *argv[] )
+{
 #ifdef DEBUG
-	G.inputs.init("&op=me=ni&key=");
-	G.inputs.get("op");
-	
+	if(argv[1] != NULL)
+		{
+			G.inputs.init(argv[1]);
+			string back = G.inputs.get("op");
+			cout<<back<<endl;
+		}
 #else
     //int sock; 
     FCGX_Request request; 

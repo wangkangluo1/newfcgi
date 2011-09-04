@@ -1,6 +1,12 @@
 #ifndef INPUT_H_
 #define INPUT_H_
 
+#include	<cstdlib>
+#include	<fstream>
+#include	<iomanip>   
+#include	<iostream>  
+
+
 class input
 {
  private:
@@ -8,7 +14,7 @@ class input
 	
  public:
 	void init(char *str);
-	char *get(char *search_arg);
+	std::string get(char *search_arg);
 };
 
 #endif

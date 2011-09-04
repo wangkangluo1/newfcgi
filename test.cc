@@ -1,36 +1,21 @@
-/*
- * =====================================================================================
- *
- *       Filename:  test.cc
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  09/04/2011 06:34:29 PM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  kangle.wang (mn), wangkangluo1@gmail.com
- *        Company:  APE-TECH
- *
- * =====================================================================================
- */
+#include <string> 
 #include <iostream>
 
-#include <boost/regex.hpp>
+using namespace std;
 
-int main( int argc, char* argv[] )
+int main()
 {
-    char *buf = "This is boost::regex example";
+    string str( "a bc abc abcd abcde" );
+    string searchString( "hello" ); 
+    string replaceString( "ab" );
 
-    boost::regex exampleregex( "boost::regex" );
-    boost::cmatch result;
+   // assert( searchString != replaceString );
 
-    if( boost::regex_search( buf, result, exampleregex ) )
-    {
-        std::cout << result.str() << std::endl;
+    string::size_type pos = 0;
+    while ( (pos = str.find(searchString, pos)) != string::npos ) {
+        str.replace( pos, searchString.size(), replaceString );
+        pos++;
     }
-
+    cout << str << endl;
     return 0;
 }
-

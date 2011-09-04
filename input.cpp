@@ -1,8 +1,5 @@
 #include "input.h"
-#include	<cstdlib>
-#include	<fstream>
-#include	<iomanip>   
-#include	<iostream>  
+
 #include <boost/regex.hpp>
 
 using namespace std;
@@ -13,7 +10,7 @@ void input::init(char *str)
 }
 
 
-char * input::get(char *search_arg)
+string input::get(char *search_arg)
 {
 	string gets("(&|^)");
    	gets.append(search_arg);
@@ -23,11 +20,19 @@ char * input::get(char *search_arg)
 	cmatch result;
 	if(regex_search(input_strs, result, expression) )
 		{
-			cout << result.str() << std::endl;
+			string strs = result.str();
+			string searchString( "&" ); 
+			string::size_type pos = 0;
+			while ( (pos = strs.find(searchString, pos)) != string::npos ) {
+				strs.replace( pos, searchString.size(), "" );
+				pos++;
+			}
+			return strs;
 		}
 	else
 		{
 			cout<<"Error Input"<<endl;
+			return NULL;
 		}	
 }
 
