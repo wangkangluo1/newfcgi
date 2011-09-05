@@ -5,18 +5,27 @@
 #include	<iostream>  
 using namespace std;
 
-global G;
 
-void con_::init()
+path::path()
 {
-	G.hDirectory = eggDirectory_open("/ape/ImRoBot5/index/bas/k2d/");
-	G.hIndexReader = eggIndexReader_open(G.hDirectory);
-	G.hIndexSearcher = eggIndexSearcher_new(G.hIndexReader);
+	hDirectory = eggDirectory_open("/ape/ImRoBot5/index/bas/k2d/");
+	hIndexReader = eggIndexReader_open(hDirectory);
+	hIndexSearcher = eggIndexSearcher_new(hIndexReader);
 }
 
-void con_::end()
+path::~path()
 {
-	eggIndexSearcher_delete(G.hIndexSearcher);
-	eggIndexReader_close(G.hIndexReader);
-	eggDirectory_close(G.hDirectory);
+	eggIndexSearcher_delete(hIndexSearcher);
+	eggIndexReader_close(hIndexReader);
+	eggDirectory_close(hDirectory);
+}
+
+HEGGINDEXREADER path::get_search()
+{
+	return hIndexSearcher;
+}
+
+HEGGINDEXREADER path::get_reader()
+{
+	return hIndexReader;
 }

@@ -1,7 +1,5 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
-#include "input.h"
-
 
 extern "C"
 {
@@ -13,23 +11,18 @@ extern "C"
 #include <scholar/ImCwsLexAnalyzer.h>
 }
 
-class con_
+class path
 {
+	
  public:
-	void init();
-	void end();
-};
-
-
-typedef struct global_ global;
-
-struct global_
-{
+	path();
+	virtual ~path();
+	HEGGINDEXREADER get_search();
+	HEGGINDEXREADER get_reader();
+ private:
 	HEGGDIRECTORY hDirectory;
 	HEGGINDEXREADER hIndexReader;
 	HEGGINDEXSEARCHER hIndexSearcher;
-	input inputs;
-	con_ con;
 };
 
 

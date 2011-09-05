@@ -13,7 +13,8 @@ class input
 	char *input_strs;
 	
  public:
-	void init(char *str);
+	input(const char *str);
+	virtual ~input();
 	std::string get(char *search_arg);
 };
 

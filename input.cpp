@@ -1,15 +1,18 @@
 #include "input.h"
-
 #include <boost/regex.hpp>
 
 using namespace std;
 using namespace boost;
-void input::init(char *str)
+
+input::input(const char *str)
 {
-    input_strs = str;
+	input_strs =(char*)str;
 }
 
-	
+input::~input()
+{
+}
+
 string input::get(char *search_arg)
 {
 	string gets("(&|^)");
