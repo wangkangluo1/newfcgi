@@ -26,8 +26,6 @@
 using namespace std;
 extern global G;
 
-
-
 extern "C"
 {
 #include <stdio.h> 
@@ -36,19 +34,15 @@ extern "C"
 }
 
 
-
-
 #ifndef DEBUG
 #define printf(...) FCGX_FPrintF(request->out, __VA_ARGS__)
 #endif
 #define get_param(KEY) FCGX_GetParam(KEY, request->envp) 
 
 
-//void me()
 string *me()
 {
-    string *back = new string;
-
+	string *back = new string;	
 	HEGGQUERY h1, h2, h3;
 	h1 = eggQuery_new_string("title", "new", 3, ANALYZER_CWSLEX);
 	h2 = eggQuery_new_string("content", "new", 3, ANALYZER_CWSLEX);
@@ -71,19 +65,18 @@ string *me()
 												lp_score_doc[cnt-1].idDoc, &lp_eggDocument);
 					HEGGFIELD lp_field = eggDocument_get_field(lp_eggDocument, "content");
 					unsigned len = 0;
-					char *val = eggField_get_value(lp_field, &len);
+				    char *val = eggField_get_value(lp_field, &len);
 					*back = "last document: body:";
 					back->append(val);
-					//printf("last document: body[%.*s]\n", len, val);
 					lp_field = 0;
 					eggDocument_delete(lp_eggDocument);
 				}
 		}
-
 	eggTopCollector_delete(hTopCollector);
 	eggQuery_delete(h1);
 	return back;
 }
+
 
 
 void handle_request(FCGX_Request *request) { 
@@ -93,9 +86,8 @@ void handle_request(FCGX_Request *request) {
   		G.inputs.init(value);
 	} 
 	string *back = me();
-	
-    printf(back->c_str());
-	//printf("%d", G);
+	printf(back->c_str());
+	delete back;
 } 
 
 int
@@ -106,6 +98,7 @@ main ( int argc, char *argv[] )
     string *back = me();
 	cout<<(*back)<<endl;
 	delete back;
+
 	if(argv[1] != NULL)
 		{
 			G.inputs.init(argv[1]);
