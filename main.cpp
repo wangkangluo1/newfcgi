@@ -43,7 +43,17 @@ extern "C"
 
 string *print_void()
 {
-	string *back = new string("10086");
+	string *back = new string("search_callback({ \n \
+        \"result\":0,  \n \
+        \"pageAct\":0, \n \
+        \"useTime\":0, \n \
+        \"body\":[ \n \
+                 {\"post_title\":\"\",\n \
+                  \"post_summary\":\"\",\n \
+                  \"post_url\":\"\",\n \
+                  \"date\":\"\"}\n \
+               ],\n \
+        \"err\":\"\"})");
 	return back;
 }
 
