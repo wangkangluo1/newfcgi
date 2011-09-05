@@ -9,7 +9,7 @@ void input::init(char *str)
     input_strs = str;
 }
 
-
+	
 string input::get(char *search_arg)
 {
 	string gets("(&|^)");
@@ -21,18 +21,21 @@ string input::get(char *search_arg)
 	if(regex_search(input_strs, result, expression) )
 		{
 			string strs = result.str();
-			string searchString( "&" ); 
 			string::size_type pos = 0;
-			while ( (pos = strs.find(searchString, pos)) != string::npos ) {
-				strs.replace( pos, searchString.size(), "" );
-				pos++;
-			}
+			if ( (pos = strs.find("&", 0)) != string::npos )
+				{
+					strs.replace( pos, 1, "" );
+				}
+
+			if ( (pos = strs.find(search_arg, 0)) != string::npos )
+				{
+					strs.replace( pos, strlen(search_arg)+1, "" );
+				}
 			return strs;
 		}
 	else
 		{
-			cout<<"Error Input"<<endl;
-			return NULL;
+			return "";
 		}	
 }
 
