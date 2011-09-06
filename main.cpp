@@ -41,9 +41,19 @@ extern "C"
 #define get_param(KEY) FCGX_GetParam(KEY, request->envp) 
 
 
-string *print_void()
+string *print_void(string random_str)
 {
-	string *back = new string("search_callback({ \n \
+	string *back = new string(" _ape_json_.back && _ape_json_.back({ \n \
+          random_str:");
+    if(random_str == "")
+		{
+			back->append("0,\n");
+		}
+	else
+		{
+			back->append(random_str+",\n");
+		}
+	back->append("\
         \"result\":0,  \n \
         \"pageAct\":0, \n \
         \"useTime\":0, \n \
@@ -62,20 +72,19 @@ void handle_request(FCGX_Request *request, path *paths) {
     char *value;
 	printf("Content-Type: text/plain\r\n\r\n");
 	string *back;
+	
     if ((value = get_param("QUERY_STRING")) != NULL)
-		{ 
+	{
+	
 			input inputs(value);
 			egg egg_result(paths,&inputs);   //初始化egg容器
 			back = egg_result.get_result(); //取结果
 			if(back == NULL)
 				{
-					back = print_void();
+					back = print_void(inputs.get("random_str"));
 				}
-		}
-	else
-		{
-			back = print_void();
-		}
+	}
+	
 	
 	printf("%s",back->c_str());
 	delete back;
@@ -91,16 +100,17 @@ main ( int argc, char *argv[] )
 	if(argv[1] != NULL)
 		{
 			input inputs(argv[1]);     //初始化输入对象
+			cout<<inputs.get("op")<<endl;
 			egg egg_result(&egg_path,&inputs);   //初始化egg容器
 			back = egg_result.get_result();  //取结果
 			if(back == NULL)
 				{
-					back = print_void();
+					back = print_void(inputs.get("random_str"));
 				}
 		}
 	else
 		{
-			back = print_void();
+			back = print_void("0");
 		}
 	cout<<back->c_str()<<endl;
 	delete back;
