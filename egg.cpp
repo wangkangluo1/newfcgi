@@ -1,4 +1,7 @@
 #include "egg.h"
+#include <map>
+#include  "query.h"
+#include  "output.h"
 using namespace std;
 
 egg::egg(path *egg_path, input *inputs)
@@ -13,25 +16,25 @@ egg::~egg()
 
 std::string *egg::get_result()
 {
-	std::string *back = new std::string;
-	string op = input_strs->get("op");
-	if(op == "")
+    output output_str;
+	std::string op;
+
+	output_str.set_random(input_strs->get("random_str"));
+	
+	if((op = input_strs->get("op")) == "")
 		{
-			return NULL;
+			return output_str.get_str_void();
 		}
-	HEGGQUERY h1, h2, h3;
-	h1 = eggQuery_new_string("title", "new", 3, ANALYZER_CWSLEX);
-	h2 = eggQuery_new_string("content", "new", 3, ANALYZER_CWSLEX);
-	h1 = eggQuery_or(h2, h1);
+    query query_str;
+	query_str.add("title", input_strs->get("keywords"));
 	HEGGTOPCOLLECTOR hTopCollector = eggTopCollector_new(0);
-	int ret = eggIndexSearcher_search_with_query(paths->get_search(), hTopCollector, h1);
+	int ret = eggIndexSearcher_search_with_query(paths->get_search(), hTopCollector, query_str.get_query());
 	if (ret == EGG_TRUE)
 		{
 			eggTopCollector_normalized(hTopCollector, EGG_TOPSORT_SCORE);
 			// eggTopCollector_normalized(hTopCollector, EGG_TOPSORT_NOT);
 			HEGGSCOREDOC lp_score_doc = eggTopCollector_top_docs(hTopCollector);
 			count_t cnt =  eggTopCollector_total_hits(hTopCollector);
-			
 			if (cnt > 0)
 				{
 					HEGGDOCUMENT lp_eggDocument = EGG_NULL;
@@ -40,13 +43,16 @@ std::string *egg::get_result()
 					HEGGFIELD lp_field = eggDocument_get_field(lp_eggDocument, "content");
 					unsigned len = 0;
 				    char *val = eggField_get_value(lp_field, &len);
-					*back = "last document: body:";
-					back->append(val);
+					map<char *, char *> ele;
+					ele["body"] = val;
+					output_str.add(ele);
+					
+                    
+					
 					lp_field = 0;
 					eggDocument_delete(lp_eggDocument);
 				}
 		}
 	eggTopCollector_delete(hTopCollector);
-	eggQuery_delete(h1);
-	return back;
+	return output_str.get_str();
 }
